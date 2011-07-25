@@ -27,17 +27,21 @@ class backup {
   ruby::gem { backup: }
   ruby::gem { net-sftp: }
 
-  define model($source = ["puppet:///files/$name/backup.rb", "puppet:///$name/backup.rb"], $content = false) {
+  define model($source = "", $content = false) {
     include backup
-    
+
     if $content {
       file { "/etc/backup/models/$name.rb":
         content => $content,
         mode => 600
       } 
     } else {
+      $real_source = $source ? {
+        "" => ["puppet:///files/$name/backup.rb", "puppet:///$name/backup.rb"],
+        default => $source
+      }  
       file { "/etc/backup/models/$name.rb":
-        source => $source,
+        source => $real_source,
         mode => 600
       }
     }
