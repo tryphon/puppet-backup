@@ -29,6 +29,7 @@ class backup {
 
   include ruby::gem::fog::dependencies
   ruby::gem { fog: ensure => '0.7.2' } # for S3 support
+  ruby::gem { s3sync: }
 
   define model($source = "", $content = false) {
     include backup
