@@ -26,6 +26,8 @@ class backup {
   include ruby::gems
   ruby::gem { backup: }
   ruby::gem { net-sftp: } 
+
+  include ruby::gem::fog::dependencies
   ruby::gem { fog: } # for S3 support
 
   define model($source = "", $content = false) {
