@@ -4,13 +4,19 @@ PATH=/var/lib/gems/1.8/bin:$PATH
 
 models_dir=${1:-"/etc/backup/models"}
 
+function log() {
+    logger -t backup -i $@
+}
+
 for config_file in `/bin/ls $models_dir/*.rb`; do
     model=`basename $config_file .rb`
-    echo "Backup $model"
-    backup perform -t $model -c $config_file -d /var/lib/backup/data -l /var/log/backup --tmp-path=/tmp/
+    log "Backup $model"
+    backup perform -t $model -c $config_file -d /var/lib/backup/data -l /var/log/backup --tmp-path=/tmp/ 2>&1 | \
+        sed 's/^.*\] \(.*\)$/\1/' | log
+    
     if [ $? == 0 ]; then
-        echo "Backup $model: done"
+        log "Backup $model: done"
     else
-        echo "Backup $model: failed"
+        log "Backup $model: failed"
     fi
 done
