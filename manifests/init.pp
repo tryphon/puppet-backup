@@ -28,7 +28,7 @@ class backup {
   ruby::gem { net-sftp: } 
 
   include ruby::gem::fog::dependencies
-  ruby::gem { fog: ensure => '0.7.2' } # for S3 support
+  ruby::gem { fog: } # for S3 support
   ruby::gem { s3sync: }
 
   define model($source = "", $content = false) {
