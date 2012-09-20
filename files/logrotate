@@ -1,0 +1,7 @@
+/var/log/backup.log {
+    weekly
+    rotate 1
+    missingok
+    create 640 root adm
+    compress
+}

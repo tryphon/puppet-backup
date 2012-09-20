@@ -23,6 +23,10 @@ class backup {
     ensure => "/usr/local/sbin/backup-models"
   }
 
+  file { "/etc/logrotate.d/backup":
+    source => "puppet:///backup/logrotate"
+  }
+
   include ruby::gems
   ruby::gem { backup: ensure => "3.0.25" }
   ruby::gem { net-sftp: } 
