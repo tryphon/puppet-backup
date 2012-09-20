@@ -24,11 +24,11 @@ class backup {
   }
 
   include ruby::gems
-  ruby::gem { backup: }
+  ruby::gem { backup: ensure => "3.0.25" }
   ruby::gem { net-sftp: } 
 
   include ruby::gem::fog::dependencies
-  ruby::gem { fog: } # for S3 support
+  ruby::gem { fog: ensure => "1.4.0" } # for S3 support
   ruby::gem { s3sync: }
 
   define model($source = "", $content = false) {
