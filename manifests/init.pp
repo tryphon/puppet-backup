@@ -27,6 +27,11 @@ class backup {
     source => "puppet:///backup/logrotate"
   }
 
+   file { "/etc/backup/defaults.rb":
+     source => ["puppet:///files/backup/defaults.rb", "puppet:///backup/defaults.rb"],
+     mode => 600
+   }
+
   include ruby::gems
   ruby::gem { backup: ensure => "3.0.25" }
   ruby::gem { net-sftp: } 
