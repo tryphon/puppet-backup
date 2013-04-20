@@ -39,6 +39,7 @@ class backup {
   include ruby::gem::fog::dependencies
   ruby::gem { fog: ensure => "1.4.0" } # for S3 support
   ruby::gem { s3sync: }
+  ruby::gem { parallel: ensure => "0.5.12" }
 
   ruby::gem { mail: ensure => "2.4.0" }
 
