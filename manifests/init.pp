@@ -1,11 +1,11 @@
 class backup {
 
-  file { "/etc/backup": 
+  file { "/etc/backup":
     ensure => directory
   }
 
   # Contains models managed by backup-models
-  file { "/etc/backup/models": 
+  file { "/etc/backup/models":
     ensure => directory
   }
 
@@ -24,7 +24,8 @@ class backup {
   }
 
   file { "/etc/logrotate.d/backup":
-    source => "puppet:///backup/logrotate"
+    source => "puppet:///backup/logrotate",
+    mode => 644
   }
 
    file { "/etc/backup/defaults.rb":
@@ -34,7 +35,7 @@ class backup {
 
   include ruby::gems
   ruby::gem { backup: ensure => "3.0.25" }
-  ruby::gem { net-sftp: } 
+  ruby::gem { net-sftp: }
 
   include ruby::gem::fog::dependencies
   ruby::gem { fog: ensure => "1.4.0" } # for S3 support
@@ -50,12 +51,12 @@ class backup {
       file { "/etc/backup/models/$name.rb":
         content => $content,
         mode => 600
-      } 
+      }
     } else {
       $real_source = $source ? {
         "" => ["puppet:///files/$name/backup.rb", "puppet:///$name/backup.rb"],
         default => $source
-      }  
+      }
       file { "/etc/backup/models/$name.rb":
         source => $real_source,
         mode => 600
