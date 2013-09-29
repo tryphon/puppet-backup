@@ -8,7 +8,7 @@ function log() {
     logger -t backup -i $@
 }
 
-for config_file in `/bin/ls $models_dir/*.rb`; do
+for config_file in `/usr/bin/find $models_dir -maxdepth 1 -name '*.rb'`; do
     model=`basename $config_file .rb`
     log "Backup $model"
     backup perform -t $model -c $config_file -d /var/lib/backup/data -l /var/log --tmp-path=/tmp/ 2>&1 | \
