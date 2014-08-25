@@ -19,8 +19,15 @@ class backup {
     mode => 755
   }
 
+  cron { 'backup-models':
+    command  => '/usr/local/sbin/backup-models',
+    user     => root,
+    hour     => 2 + fqdn_rand(4,'backup_cron_hour'),
+    minute   => 15 * fqdn_rand(4,'backup_cron_minute'),
+  }
+
   file { "/etc/cron.daily/backup-models":
-    ensure => "/usr/local/sbin/backup-models"
+    ensure => absent
   }
 
   file { "/etc/logrotate.d/backup":

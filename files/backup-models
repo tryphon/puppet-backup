@@ -13,7 +13,7 @@ for config_file in `/usr/bin/find $models_dir -maxdepth 1 -name '*.rb'`; do
     log "Backup $model"
     backup perform -t $model -c $config_file -d /var/lib/backup/data -l /var/log --tmp-path=/tmp/ 2>&1 | \
         sed 's/^.*\] \(.*\)$/\1/' | log
-    
+
     if [ $? == 0 ]; then
         log "Backup $model: done"
     else
