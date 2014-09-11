@@ -11,7 +11,7 @@ function log() {
 for config_file in `/usr/bin/find $models_dir -maxdepth 1 -name '*.rb'`; do
     model=`basename $config_file .rb`
     log "Backup $model"
-    nice -19 backup perform -t $model -c $config_file -d /var/lib/backup/data -l /var/log --tmp-path=/tmp/ 2>&1 | \
+    nice -19 ionice -c3 backup perform -t $model -c $config_file -d /var/lib/backup/data -l /var/log --tmp-path=/tmp/ 2>&1 | \
         sed 's/^.*\] \(.*\)$/\1/' | log
 
     if [ $? == 0 ]; then
