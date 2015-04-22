@@ -41,15 +41,8 @@ class backup {
    }
 
   include ruby::gems
-  ruby::gem { backup: ensure => "3.0.25" }
-  ruby::gem { net-sftp: }
-
+  ruby::gem { backup: ensure => "3.11.0" }
   include ruby::gem::fog::dependencies
-  ruby::gem { fog: ensure => "1.4.0" } # for S3 support
-  ruby::gem { s3sync: }
-  ruby::gem { parallel: ensure => "0.5.12" }
-
-  ruby::gem { mail: ensure => "2.4.0" }
 
   define model($source = "", $content = false) {
     include backup
