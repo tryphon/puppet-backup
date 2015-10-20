@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PATH=/var/lib/gems/1.9/bin:/var/lib/gems/1.8/bin:/usr/local/bin:$PATH
+PATH=/var/lib/gems/1.9.1/bin:/var/lib/gems/1.8/bin:/usr/local/bin:$PATH
 
 models_dir=${1:-"/etc/backup/models"}
 
