@@ -22,8 +22,8 @@ class backup {
   cron { 'backup-models':
     command  => '/usr/local/sbin/backup-models',
     user     => root,
-    hour     => 2 + fqdn_rand(4,'backup_cron_hour'),
-    minute   => 15 * fqdn_rand(4,'backup_cron_minute'),
+    hour     => 2 + fqdn_rand2(4,'backup_cron_hour'),
+    minute   => 15 * fqdn_rand2(4,'backup_cron_minute'),
   }
 
   file { "/etc/cron.daily/backup-models":
