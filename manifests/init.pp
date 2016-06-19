@@ -15,7 +15,7 @@ class backup {
   }
 
   file { "/usr/local/sbin/backup-models":
-    source => "puppet:///backup/backup-models",
+    source => "puppet:///modules/backup/backup-models",
     mode => 755
   }
 
@@ -31,12 +31,12 @@ class backup {
   }
 
   file { "/etc/logrotate.d/backup":
-    source => "puppet:///backup/logrotate",
+    source => "puppet:///modules/backup/logrotate",
     mode => 644
   }
 
    file { "/etc/backup/defaults.rb":
-     source => ["puppet:///files/backup/defaults.rb", "puppet:///backup/defaults.rb"],
+     source => ["puppet:///files/backup/defaults.rb", "puppet:///modules/backup/defaults.rb"],
      mode => 600
    }
 
