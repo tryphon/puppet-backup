@@ -54,7 +54,7 @@ class backup {
       }
     } else {
       $real_source = $source ? {
-        "" => ["puppet:///files/$name/backup.rb", "puppet:///$name/backup.rb"],
+        "" => ["puppet:///files/$name/backup.rb", "puppet:///modules/$name/backup.rb"],
         default => $source
       }
       file { "/etc/backup/models/$name.rb":
