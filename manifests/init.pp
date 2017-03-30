@@ -1,4 +1,7 @@
-class backup {
+class backup (
+  $global_source = 'puppet:///modules/backup/global.rb',
+  $global_content = '',
+  $defaults_source = 'puppet:///modules/backup/defaults.rb'){
 
   file { "/etc/backup":
     ensure => directory
@@ -9,21 +12,29 @@ class backup {
     ensure => directory
   }
 
-  file { "/etc/backup/global.rb":
-    source => "puppet:///files/backup/global.rb",
-    mode => 600
+  if $global_content == '' {
+    file { "/etc/backup/global.rb":
+      source => $global_source,
+      mode   => '0600'
+    }
+  } else {
+    file { "/etc/backup/global.rb":
+      content => $global_content,
+      mode    => '0600'
+    }
   }
+  
 
   file { "/usr/local/sbin/backup-models":
     source => "puppet:///modules/backup/backup-models",
-    mode => 755
+    mode   => '0755'
   }
 
   cron { 'backup-models':
     command  => '/usr/local/sbin/backup-models',
     user     => root,
-    hour     => 2 + fqdn_rand2(4,'backup_cron_hour'),
-    minute   => 15 * fqdn_rand2(4,'backup_cron_minute'),
+    hour     => 2 + fqdn_rand(4,'backup_cron_hour'),
+    minute   => 15 * fqdn_rand(4,'backup_cron_minute'),
   }
 
   file { "/etc/cron.daily/backup-models":
@@ -32,48 +43,17 @@ class backup {
 
   file { "/etc/logrotate.d/backup":
     source => "puppet:///modules/backup/logrotate",
-    mode => 644
+    mode   => '0644'
   }
 
    file { "/etc/backup/defaults.rb":
-     source => ["puppet:///files/backup/defaults.rb", "puppet:///modules/backup/defaults.rb"],
-     mode => 600
+     source => $defaults_source,
+     mode   => '0600'
    }
 
   include ruby::gems
   ruby::gem { backup: ensure => "3.11.0" }
-  include ruby::gem::fog::dependencies
-
-  define model($source = "", $content = false) {
-    include backup
-
-    if $content {
-      file { "/etc/backup/models/$name.rb":
-        content => $content,
-        mode => 600
-      }
-    } else {
-      $real_source = $source ? {
-        "" => ["puppet:///files/$name/backup.rb", "puppet:///modules/$name/backup.rb"],
-        default => $source
-      }
-      file { "/etc/backup/models/$name.rb":
-        source => $real_source,
-        mode => 600
-      }
-    }
-  }
-
-  define trac() {
-    backup::model { "trac-$name":
-      content => template("backup/trac.rb")
-    }
-  }
-
-  define git() {
-    backup::model { "git-$name":
-      content => template("backup/git.rb")
-    }
-  }
+  package { [libxml2-dev, zlib1g-dev]: }
+  package { libxslt1-dev: }
 
 }
