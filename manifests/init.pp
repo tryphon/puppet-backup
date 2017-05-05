@@ -52,7 +52,7 @@ class backup (
    }
 
   include ruby::gems
-  ruby::gem { backup: ensure => "3.11.0" }
+  ruby::gem { backup: ensure => "4.4.0" }
   package { [libxml2-dev, zlib1g-dev]: }
   package { libxslt1-dev: }
 
