@@ -1,7 +1,8 @@
 class backup (
   $global_source = 'puppet:///modules/backup/global.rb',
   $global_content = '',
-  $defaults_source = 'puppet:///modules/backup/defaults.rb'){
+  $defaults_source = 'puppet:///modules/backup/defaults.rb',
+  $gem_version = '4.4.0'){
 
   file { "/etc/backup":
     ensure => directory
@@ -52,7 +53,7 @@ class backup (
    }
 
   include ruby::gems
-  ruby::gem { backup: ensure => "4.4.0" }
+  ruby::gem { backup: ensure => $gem_version }
   package { [libxml2-dev, zlib1g-dev]: }
   package { libxslt1-dev: }
 
