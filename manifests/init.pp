@@ -17,7 +17,7 @@ class backup (
       source => $global_source,
       mode   => '0600'
     }
-  } else {
+  } else {
     file { "/etc/backup/global.rb":
       content => $global_content,
       mode    => '0600'
