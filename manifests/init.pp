@@ -2,7 +2,7 @@ class backup (
   $global_source = 'puppet:///modules/backup/global.rb',
   $global_content = '',
   $defaults_source = 'puppet:///modules/backup/defaults.rb',
-  $gem_version = '4.4.0'){
+  $gem_version = undef){
 
   file { "/etc/backup":
     ensure => directory
@@ -53,7 +53,16 @@ class backup (
    }
 
   include ruby::gems
-  ruby::gem { backup: ensure => $gem_version }
+
+  $_gem_version = case $gem_version {
+    undef => case $lsbdistcodename {
+      'wheezy' => '3.11.0',
+      default  => '4.4.0',
+    },
+    default => $gem_version,
+  }
+
+  ruby::gem { backup: ensure => $_gem_version }
   package { [libxml2-dev, zlib1g-dev]: }
   package { libxslt1-dev: }
 
