@@ -54,8 +54,8 @@ class backup (
 
   include ruby::gems
 
-  $_gem_version = case $gem_version {
-    undef => case $lsbdistcodename {
+  $_gem_version = $gem_version ? {
+    undef => $lsbdistcodename ? {
       'wheezy' => '3.11.0',
       default  => '4.4.0',
     },
