@@ -54,6 +54,7 @@ class backup (
 
   include ruby::gems
   ruby::gem { backup: ensure => $gem_version }
+  ruby::gem { 'facter': }
   package { [libxml2-dev, zlib1g-dev]: }
   package { libxslt1-dev: }
 
