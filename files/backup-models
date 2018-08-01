@@ -19,4 +19,6 @@ for config_file in `/usr/bin/find $models_dir -maxdepth 1 -name '*.rb'`; do
     else
         log "Backup $model: failed"
     fi
+
+    rm -rf /tmp/$model /tmp/$model.tar
 done
